@@ -1,6 +1,6 @@
 <html>
   <body>
-    <form name="create-user-form" method='POST' action='http://localhost:8000/username'>
+    <form name="create-user-form" method='POST' action='http://localhost:8000/user'>
       <h1>Create a user</h1>
       <span>Username</span>
       <input type="text" name="username" />
@@ -92,7 +92,7 @@
             "username": document.getElementById("mark-todonote-username").value,
             "password": document.getElementById("mark-todonote-password").value,
             "noteid": document.getElementById("mark-todonote-noteid").value,
-            "completed": document.getElementById("mark-todonote-completed").value == "on" ? 1 : 0,
+            "completed": document.getElementById("mark-todonote-completed").checked ? 1 : 0,
           }),
           headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -106,7 +106,6 @@
         const url = new URL('http://localhost:8000/todonotes/'+givenUsername);
         fetch(url).then(function(response) {
           console.log(response);
-          alert(response);
         });
       }
     </script>

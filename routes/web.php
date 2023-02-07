@@ -107,6 +107,7 @@ $router->patch('/todonote', function (Request $request) {
     function(Request $request) {
       $completionValue = "NULL";
       if (intval($request->input('completed')) == 1) {
+        return wrapFormattedResponse([], 200);
         $completionValue = "date('now')";
       }
       $updated = DB::update("update todonote set completion_time=" . $completionValue . " where user_id = ? and id = ?", [
@@ -155,7 +156,7 @@ $router->get('/todonotes/{username}', function (Request $request, $username) {
       'message' => $returnMessage
     ], 404);
   } else {
-    $notes = DB::select('select id, content from todonote where user_id = ?', [$ids[0]->id]);
+    $notes = DB::select('select id, content, completion_time from todonote where user_id = ?', [$ids[0]->id]);
     return wrapFormattedResponse([
       'data' => $notes
     ], 200);
@@ -191,10 +192,3 @@ function authenticateUser(Request $request, callable $closure) {
 function wrapFormattedResponse($data, $statusCode) {
   return response()->json($data, $statusCode);
 }
-
-// TODO
-// authentication
-// frontend
-// submit
-// encrypt passwords for user table
-// put tokens into requests
